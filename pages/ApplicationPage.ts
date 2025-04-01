@@ -104,7 +104,7 @@ export class ApplicationPage {
   async submitApplication() {
     const currentUrl = this.page.url();
     await this.page.getByRole("button", { name: "Submit" }).click();
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForLoadState("networkidle");
     await this.page.goto(currentUrl);
     await expect(
       this.page.getByRole("button", { name: "Edit" })

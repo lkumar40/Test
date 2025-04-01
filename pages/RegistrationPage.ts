@@ -7,7 +7,7 @@ export class RegistrationPage {
     await this.page.goto("https://apply.mykaleidoscope.com/login");
     await this.page.getByPlaceholder("Email Address").fill(email);
     await this.page.getByLabel("Next").click();
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForLoadState("networkidle");
     const currentUrl = this.page.url();
     console.log(currentUrl);
     if (currentUrl.includes("https://apply.mykaleidoscope.com/signup")) {

@@ -76,7 +76,7 @@ export class ApplicationPage {
     await this.page.getByPlaceholder("Enter your current GPA").fill("9");
     await this.page.getByPlaceholder("Enter a date").fill("2009");
     const inputFile = await this.page.locator('input[type="file"]');
-    await inputFile.setInputFiles("Test/My School Transcript.pdf");
+    await inputFile.setInputFiles("utils/My School Transcript.pdf");
     await expect(this.page.getByText("My School Transcript.pdf")).toBeVisible();
     await this.page.getByRole("button", { name: "Next Page" }).click();
     await this.page

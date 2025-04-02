@@ -25,37 +25,28 @@ export class ApplicationPage {
 
     await this.page.getByText("Next Page").click();
   }
-  //Method to validate error messagee if less than 2 entry is done
-  async entryValidation() {
-    await this.page.waitForLoadState();
-    await this.page.getByText("Add Entry").click();
-    await this.page.getByPlaceholder("Short Input").fill("aa");
-    await this.page.getByPlaceholder("123").fill("2");
 
-    await this.page.getByPlaceholder("Long Input").first().fill("bbbb");
-    await this.page.getByPlaceholder("Long Input").last().fill("bbbb");
-    await this.page.getByRole("button", { name: "Add" }).last().click();
-    await this.page.getByRole("button", { name: "Next Page" }).click();
-    await expect(
-      this.page.getByText("Please add at least 2 entries")
-    ).toBeVisible();
-  }
-
-  //Method to add Multiple Entries
+  //Method to add Multiple Entries and validate entries
   async addEntries(
     p0: { name: string; years: string; role: string; description: string }[]
   ) {
     await this.page.waitForLoadState();
-    for (const field of p0) {
+    for (let i = 0; i < p0.length; i++) {
       await this.page.getByText("Add Entry").first().click();
-      await this.page.getByPlaceholder("Short Input").fill(field.name);
-      await this.page.getByPlaceholder("123").fill(field.years);
-      await this.page.getByPlaceholder("Long Input").first().fill(field.role);
+      await this.page.getByPlaceholder("Short Input").fill(p0[i].name);
+      await this.page.getByPlaceholder("123").fill(p0[i].years);
+      await this.page.getByPlaceholder("Long Input").first().fill(p0[i].role);
       await this.page
         .getByPlaceholder("Long Input")
         .last()
-        .fill(field.description);
+        .fill(p0[i].description);
       await this.page.getByRole("button", { name: "Add" }).last().click();
+      if (i == 0) {
+        await this.page.getByRole("button", { name: "Next Page" }).click();
+        await expect(
+          this.page.getByText("Please add at least 2 entries")
+        ).toBeVisible();
+      }
     }
     await this.page.getByRole("button", { name: "Next Page" }).click();
     await this.page
@@ -85,9 +76,7 @@ export class ApplicationPage {
     await this.page.getByPlaceholder("Enter your current GPA").fill("9");
     await this.page.getByPlaceholder("Enter a date").fill("2009");
     const inputFile = await this.page.locator('input[type="file"]');
-    await inputFile.setInputFiles(
-      "/Users/neosoft1/Downloads/SDET Interview Package (1)/My School Transcript.pdf"
-    );
+    await inputFile.setInputFiles("Test/My School Transcript.pdf");
     await expect(this.page.getByText("My School Transcript.pdf")).toBeVisible();
     await this.page.getByRole("button", { name: "Next Page" }).click();
     await this.page

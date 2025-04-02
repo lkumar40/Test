@@ -9,7 +9,7 @@ test.describe("Kaleidoscope Applicant Application Process", () => {
   let email: string;
   let password: string = "Aniket@260199";
 
-  test("Register a User and submit Scholarship Application", async ({
+  test("Register a User and navigate to Scholarship Application", async ({
     page,
   }) => {
     const registrationPage = new RegistrationPage(page);
@@ -21,8 +21,8 @@ test.describe("Kaleidoscope Applicant Application Process", () => {
     await registrationPage.registerUser(email, password);
     await applicationPage.beginApplication();
     await applicationPage.fillPage1();
-    await applicationPage.entryValidation();
     await applicationPage.addEntries([
+      { name: "Running", years: "2", role: "Runner", description: "Shoes" },
       { name: "Reading", years: "2", role: "Reader", description: "Books" },
       { name: "Swimming", years: "2", role: "Swimmeer", description: "Pool" },
       { name: "Technician", years: "2", role: "Database", description: "SQL" },
